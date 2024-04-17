@@ -1,0 +1,4 @@
+name: Pin
+version: '${project.version}'
+main: jp.houlab.mochidsuki.pin.Pin
+api-version: '1.20'
