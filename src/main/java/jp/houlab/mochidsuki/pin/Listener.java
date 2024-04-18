@@ -1,0 +1,78 @@
+package jp.houlab.mochidsuki.pin;
+
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scoreboard.Team;
+
+import java.util.HashMap;
+import java.util.Objects;
+
+import static jp.houlab.mochidsuki.pin.Pin.config;
+
+public class Listener implements org.bukkit.event.Listener {
+    @EventHandler
+    public void PlayerInteractEvent(PlayerInteractEvent event){
+        if(event.getMaterial() == Material.FILLED_MAP) {
+            if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.FILLED_MAP) {
+                    if(event.getPlayer().getTargetBlockExact(400) != null) {
+                        v.pinRed.put(event.getPlayer(), event.getPlayer().getTargetBlockExact(400).getLocation());
+                        if(event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()) != null) {
+                            for (String name : event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()).getEntries()) {//teamplayer全員に実行
+                                if (event.getPlayer().getServer().getOfflinePlayer(name).isOnline()) {
+                                    Player player = event.getPlayer().getServer().getPlayer(name);
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0);
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0.3F);
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0.6F);
+                                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 1);
+                                }
+                            }
+                        }else {
+                            Player player = event.getPlayer();
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0.3F);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 0.6F);
+                            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 1);
+                        }
+                    }else {
+                        v.pinRed.remove(event.getPlayer());
+                        event.getPlayer().playSound(event.getPlayer().getLocation(),Sound.BLOCK_FIRE_EXTINGUISH,0.5F,1);
+                    }
+                }
+            } else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
+                if(event.getPlayer().getTargetBlockExact(400) != null) {
+                    v.pin.put(event.getPlayer(),event.getPlayer().getTargetBlockExact(400).getLocation());
+
+                    if(event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()) != null) {
+                        for (String name : event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()).getEntries()) {//teamplayer全員に実行
+                            if (event.getPlayer().getServer().getOfflinePlayer(name).isOnline()) {
+                                Player player = event.getPlayer().getServer().getPlayer(name);
+                                player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_FLUTE, 100, 0);
+                            }
+                        }
+                    }else {
+                        Player player = event.getPlayer();
+                        player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_FLUTE, 100, 0);
+                    }
+
+
+                }else {
+                    v.pin.remove(event.getPlayer());
+                    event.getPlayer().playSound(event.getPlayer().getLocation(),Sound.BLOCK_FIRE_EXTINGUISH,0.5F,1);
+                }
+            }
+        }
+    }
+}
+
+class v{
+    static HashMap<Player, Location> pin = new HashMap<>();
+
+    static HashMap<Player, Location> pinRed = new HashMap<>();
+}
