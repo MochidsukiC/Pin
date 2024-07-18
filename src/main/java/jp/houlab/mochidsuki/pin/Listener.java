@@ -1,19 +1,11 @@
 package jp.houlab.mochidsuki.pin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scoreboard.Team;
-
-import java.util.HashMap;
-import java.util.Objects;
-
-import static jp.houlab.mochidsuki.pin.Pin.config;
 
 public class Listener implements org.bukkit.event.Listener {
     @EventHandler
@@ -22,7 +14,7 @@ public class Listener implements org.bukkit.event.Listener {
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
                 if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.FILLED_MAP) {
                     if(event.getPlayer().getTargetBlockExact(400) != null) {
-                        v.pinRed.put(event.getPlayer(), event.getPlayer().getTargetBlockExact(400).getLocation());
+                        V.pinRed.put(event.getPlayer(), event.getPlayer().getTargetBlockExact(400).getLocation());
                         if(event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()) != null) {
                             for (String name : event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()).getEntries()) {//teamplayer全員に実行
                                 if (event.getPlayer().getServer().getOfflinePlayer(name).isOnline()) {
@@ -41,13 +33,13 @@ public class Listener implements org.bukkit.event.Listener {
                             player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BIT, 50, 1);
                         }
                     }else {
-                        v.pinRed.remove(event.getPlayer());
+                        V.pinRed.remove(event.getPlayer());
                         event.getPlayer().playSound(event.getPlayer().getLocation(),Sound.BLOCK_FIRE_EXTINGUISH,0.5F,1);
                     }
                 }
             } else if (event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
                 if(event.getPlayer().getTargetBlockExact(400) != null) {
-                    v.pin.put(event.getPlayer(),event.getPlayer().getTargetBlockExact(400).getLocation());
+                    V.pin.put(event.getPlayer(),event.getPlayer().getTargetBlockExact(400).getLocation());
 
                     if(event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()) != null) {
                         for (String name : event.getPlayer().getScoreboard().getPlayerTeam(event.getPlayer()).getEntries()) {//teamplayer全員に実行
@@ -63,7 +55,7 @@ public class Listener implements org.bukkit.event.Listener {
 
 
                 }else {
-                    v.pin.remove(event.getPlayer());
+                    V.pin.remove(event.getPlayer());
                     event.getPlayer().playSound(event.getPlayer().getLocation(),Sound.BLOCK_FIRE_EXTINGUISH,0.5F,1);
                 }
             }
@@ -71,8 +63,3 @@ public class Listener implements org.bukkit.event.Listener {
     }
 }
 
-class v{
-    static public HashMap<Player, Location> pin = new HashMap<>();
-
-    static public HashMap<Player, Location> pinRed = new HashMap<>();
-}

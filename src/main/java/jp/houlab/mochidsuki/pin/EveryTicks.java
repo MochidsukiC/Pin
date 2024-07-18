@@ -22,8 +22,8 @@ public class EveryTicks extends BukkitRunnable {
                     if(Bukkit.getOfflinePlayer(playerName).isOnline()) {
 
                         Player teammate = Pin.plugin.getServer().getPlayer(playerName);
-                        location[i] = v.pin.get(teammate);
-                        locationR[i] = v.pinRed.get(teammate);
+                        location[i] = V.pin.get(teammate);
+                        locationR[i] = V.pinRed.get(teammate);
 
                         if(teammate != player){
                             protocol.setGlowing(teammate, player);
@@ -38,8 +38,8 @@ public class EveryTicks extends BukkitRunnable {
                 Location[] location = new Location[1];
                 Location[] locationR = new Location[1];
 
-                location[0] = v.pin.get(player);
-                locationR[0] = v.pin.get(player);
+                location[0] = V.pin.get(player);
+                locationR[0] = V.pin.get(player);
 
                 protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
                 protocol.pushPin(player,locationR,EntityType.FIREBALL,team.getEntries().size());
