@@ -72,7 +72,7 @@ public class Listener implements org.bukkit.event.Listener {
 }
 
 class v{
-    static HashMap<Player, Location> pin = new HashMap<>();
+    static public HashMap<Player, Location> pin = new HashMap<>();
 
-    static HashMap<Player, Location> pinRed = new HashMap<>();
+    static public HashMap<Player, Location> pinRed = new HashMap<>();
 }
