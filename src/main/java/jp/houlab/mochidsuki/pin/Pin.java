@@ -12,7 +12,7 @@ public final class Pin extends JavaPlugin {
     static public FileConfiguration config;
     static public Plugin plugin;
 
-    private ProtocolManager protocolManager;
+    static public ProtocolManager protocolManager;
     @Override
     public void onEnable() {
         // Plugin startup logic

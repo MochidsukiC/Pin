@@ -12,7 +12,7 @@ public class EveryTicks extends BukkitRunnable {
     public void run() {
         for(Player player : Pin.plugin.getServer().getOnlinePlayers()){
             Protocol protocol = new Protocol();
-            Team team = player.getScoreboard().getEntryTeam(player.getName());
+            Team team = player.getScoreboard().getPlayerTeam(player);
             if(team != null){
                 Location[] location = new Location[team.getEntries().size()];
                 Location[] locationR = new Location[team.getEntries().size()];
@@ -42,11 +42,8 @@ public class EveryTicks extends BukkitRunnable {
                 locationR[0] = V.pin.get(player);
 
                 protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
-                protocol.pushPin(player,locationR,EntityType.FIREBALL,team.getEntries().size());
+                protocol.pushPin(player,locationR,EntityType.FIREBALL,10);
             }
-
-
-
         }
     }
 }

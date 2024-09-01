@@ -2,13 +2,21 @@ package jp.houlab.mochidsuki.pin;
 
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.wrappers.WrappedDataValue;
 import com.comphenix.protocol.wrappers.WrappedDataWatcher;
+import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import static jp.houlab.mochidsuki.pin.Pin.protocolManager;
+
 public class Protocol {
     public void pushPin(Player player, Location[] locations, EntityType entityType, int entityIdPlus) {
         int entityId = 10000 + entityIdPlus;
@@ -35,7 +43,8 @@ public class Protocol {
 
             entityId++;
 
-            PacketContainer packet0 = new PacketContainer(PacketType.Play.Server.SPAWN_ENTITY);
+
+            PacketContainer packet0 = protocolManager.createPacket(PacketType.Play.Server.SPAWN_ENTITY);
 
             packet0.getIntegers().write(0, entityId);
             packet0.getUUIDs().write(0, UUID.randomUUID());
@@ -46,9 +55,10 @@ public class Protocol {
                     .write(1, loc.getY())
                     .write(2, loc.getZ());
 
-            PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+            PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
+            WrappedDataWatcher.Serializer byteType = WrappedDataWatcher.Registry.get(Byte.class);
 
-            EasyMetadataPacket metadata = new EasyMetadataPacket(null); // Pass the NMS entity, or null as we're dealing with a client-side entity
+            //EasyMetadataPacket metadata = new EasyMetadataPacket(null); // Pass the NMS entity, or null as we're dealing with a client-side entity
 
             byte bitmask = 0x00; // First bitmask, 0x00 by default
             bitmask |= 0x20; // is invisible
@@ -56,13 +66,14 @@ public class Protocol {
                 bitmask |= 0x40; // is glowing
             }
 
-            metadata.write(0, bitmask); // Write the first bitmask
-
+            //metadata.write(0, bitmask); // Write the first bitmask
 
             packet.getIntegers().write(0, entityId);
-            packet.getWatchableCollectionModifier().write(0, metadata.export());
 
-
+            List<WrappedDataValue> values = Lists.newArrayList(
+                    new WrappedDataValue(0, byteType, bitmask)
+            );
+            packet.getDataValueCollectionModifier().write(0,values);
             /*
             WrappedDataWatcher watcher = new WrappedDataWatcher();
             WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class);
@@ -86,13 +97,19 @@ public class Protocol {
 
     public void setGlowing(Player glowingPlayer, Player sendPacket) {
 
-        PacketContainer packet = new PacketContainer(PacketType.Play.Server.ENTITY_METADATA);
+        PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, glowingPlayer.getEntityId());
-        WrappedDataWatcher watcher = new WrappedDataWatcher();
-        WrappedDataWatcher.Serializer serializer = WrappedDataWatcher.Registry.get(Byte.class);
-        watcher.setEntity(glowingPlayer);
-        watcher.setObject(0, serializer, (byte) (0x40));
-        packet.getWatchableCollectionModifier().write(0, watcher.getWatchableObjects());
+
+        WrappedDataWatcher.Serializer byteType = WrappedDataWatcher.Registry.get(Byte.class);
+
+
+        byte bitmask = 0x00; // First bitmask, 0x00 by default
+        bitmask |= 0x40; // is glowing
+
+        List<WrappedDataValue> values = Lists.newArrayList(
+                new WrappedDataValue(0, byteType, bitmask)
+        );
+        packet.getDataValueCollectionModifier().write(0,values);
 
         try {
             ProtocolLibrary.getProtocolManager().sendServerPacket(sendPacket, packet);
