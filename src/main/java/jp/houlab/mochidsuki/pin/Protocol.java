@@ -17,7 +17,18 @@ import java.util.UUID;
 
 import static jp.houlab.mochidsuki.pin.Pin.protocolManager;
 
+/**
+ * パケットを作成、編集し通信にねじ込む
+ * @author Mochidsuki
+ */
 public class Protocol {
+    /**
+     * ピンを作成、送信する
+     * @param player 送信先
+     * @param locations ピンの地点
+     * @param entityType ピンのタイプ
+     * @param entityIdPlus エンティティIDオフセット
+     */
     public void pushPin(Player player, Location[] locations, EntityType entityType, int entityIdPlus) {
         int entityId = 10000 + entityIdPlus;
 
@@ -95,6 +106,11 @@ public class Protocol {
 
     }
 
+    /**
+     * 一部のプレイヤーのみ見える発光エフェクトを付与する。
+     * @param glowingPlayer 発光させるプレイヤー
+     * @param sendPacket 送信先
+     */
     public void setGlowing(Player glowingPlayer, Player sendPacket) {
 
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);

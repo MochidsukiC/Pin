@@ -6,13 +6,18 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
+/**
+ * メインクラス
+ */
 public final class Pin extends JavaPlugin {
 
     static public FileConfiguration config;
     static public Plugin plugin;
 
     static public ProtocolManager protocolManager;
+    /**
+     * 起動時の初期化処理
+     */
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -31,7 +36,9 @@ public final class Pin extends JavaPlugin {
         //Event
         getServer().getPluginManager().registerEvents(new Listener(),this);
     }
-
+    /**
+     * 終了
+     */
     @Override
     public void onDisable() {
         // Plugin shutdown logic

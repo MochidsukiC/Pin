@@ -7,7 +7,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.Team;
 
+/**
+ * 毎ティック実行されるクラス
+ * @author Mochidsuki
+ * ピンを毎秒表示する
+ */
 public class EveryTicks extends BukkitRunnable {
+    /**
+     * 実行
+     */
     @Override
     public void run() {
         for(Player player : Pin.plugin.getServer().getOnlinePlayers()){
