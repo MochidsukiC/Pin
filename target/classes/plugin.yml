@@ -1,5 +1,5 @@
 name: Pin
-version: '1.0-SNAPSHOT'
+version: '2.0.3'
 main: jp.houlab.mochidsuki.pin.Pin
 api-version: '1.20'
 

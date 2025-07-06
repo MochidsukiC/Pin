@@ -32,6 +32,7 @@ public final class Pin extends JavaPlugin {
 
         //ProtocolLib
         protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new GlowPacketListener(this));
 
         //Event
         getServer().getPluginManager().registerEvents(new Listener(),this);
