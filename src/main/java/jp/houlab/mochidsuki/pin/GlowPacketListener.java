@@ -40,7 +40,7 @@ public class GlowPacketListener extends PacketAdapter {
 
         // エンティティが見つからない、プレイヤーでない、または自分自身のパケットは処理しない
         // getEntityFromIDはエンティティが見つからない場合にnullを返すため、nullチェックを追加するとより安全です
-        if (targetEntity == null || !(targetEntity instanceof Player) || targetEntity.equals(observer)) {
+        if (targetEntity == null || !(targetEntity instanceof Player) || targetEntity.getUniqueId().equals(observer.getUniqueId())) {
             return;
         }
         Player sourcePlayer = (Player) targetEntity;

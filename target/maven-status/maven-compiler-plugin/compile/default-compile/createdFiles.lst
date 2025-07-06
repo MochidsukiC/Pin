@@ -1,2 +1,3 @@
-jp/houlab/mochidsuki/pin/GlowPacketListener.class
-jp/houlab/mochidsuki/pin/Utilities.class
+jp\houlab\mochidsuki\pin\CommandListener.class
+jp\houlab\mochidsuki\pin\GlowPacketListener.class
+jp\houlab\mochidsuki\pin\Utilities.class

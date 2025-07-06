@@ -36,6 +36,9 @@ public final class Pin extends JavaPlugin {
 
         //Event
         getServer().getPluginManager().registerEvents(new Listener(),this);
+
+        //CommandListener
+        getCommand("pin").setExecutor(new CommandListener());
     }
     /**
      * 終了
