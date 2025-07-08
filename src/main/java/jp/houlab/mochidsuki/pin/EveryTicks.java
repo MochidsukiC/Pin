@@ -40,7 +40,10 @@ public class EveryTicks extends BukkitRunnable {
                         locationR[i] = Utilities.pinRed.get(teammate);
 
                         if(teammate != null && teammate != player){
+
                             Protocol.setGlowing(teammate, player);
+
+
                         }
 
                         i++;

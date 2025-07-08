@@ -27,6 +27,7 @@ public class Utilities {
     static final private Map<UUID, Set<UUID>> showGlowPlayerListMap = new ConcurrentHashMap<>();
 
     public static void addGlowing(Player player,Player glowPlayer) {
+
         Protocol.setGlowing(glowPlayer,player);
         showGlowPlayerListMap.computeIfAbsent(player.getUniqueId(), k -> new HashSet<>()).add(glowPlayer.getUniqueId());
         updatePlayerMetaData(glowPlayer);

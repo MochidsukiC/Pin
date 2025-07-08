@@ -113,8 +113,6 @@ public class Protocol {
      */
     public static void setGlowing(Player glowingPlayer, Player sendPacket) {
 
-
-
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, glowingPlayer.getEntityId());
 
@@ -134,6 +132,7 @@ public class Protocol {
         } catch (Exception e) {
             System.out.println("There was an issue with one of the glowing enchants!");
         }
+
 
     }
 
