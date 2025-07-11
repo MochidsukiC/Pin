@@ -37,8 +37,8 @@ public class Listener implements org.bukkit.event.Listener {
      */
     @EventHandler
     public void PlayerInteractEvent(PlayerInteractEvent event) {
-        if (event.getMaterial() == Material.FILLED_MAP) {
-            if (event.getPlayer().isSneaking()) {
+        if (event.getMaterial() == Material.matchMaterial(config.getString("PinMaterial"))) {
+            if (event.getPlayer().isSneaking() && event.getPlayer().getInventory().getItemInMainHand().getType().equals( Material.matchMaterial(config.getString("PinMaterial")))) {
                 if(event.getPlayer().getCooldown(event.getMaterial()) == 0){
                     Component name = Component.text(event.getPlayer().getName());
                     Component message =Component.text("<");
@@ -57,14 +57,14 @@ public class Listener implements org.bukkit.event.Listener {
                         message = message.append(name).append(afterMessage);
                         event.getPlayer().getServer().sendMessage(message);
                     }
-                    event.getPlayer().setCooldown(event.getMaterial(),20);
+                    event.getPlayer().setCooldown( Material.matchMaterial(config.getString("PinMaterial")),20);
                 }
                 if(event.getAction().isRightClick()){
                     return;
                 }
             }
             if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-                if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.FILLED_MAP || (event.getPlayer().isSneaking() && (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOODEN_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.STONE_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.IRON_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.DIAMOND_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NETHERITE_SWORD))) {
+                if (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.matchMaterial(config.getString("PinMaterial")) || (event.getPlayer().isSneaking() && (event.getPlayer().getInventory().getItemInMainHand().getType() == Material.WOODEN_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.STONE_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.IRON_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.DIAMOND_SWORD || event.getPlayer().getInventory().getItemInMainHand().getType() == Material.NETHERITE_SWORD))) {
                     //赤ピン
                     if (event.getPlayer().getTargetBlockExact(400) != null) {
                         Utilities.pinRed.put(event.getPlayer(), event.getPlayer().getTargetBlockExact(400).getLocation());
