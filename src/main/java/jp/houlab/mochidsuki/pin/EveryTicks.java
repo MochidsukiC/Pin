@@ -33,8 +33,14 @@ public class EveryTicks extends BukkitRunnable {
      */
     @Override
     public void run() {
+        /*
+        for(Team team : Utilities.getShowGlowTeamSet()){
+            Utilities.updateGlowingTeamMember(team);
+        }
+
+         */
         for(Player player : Pin.plugin.getServer().getOnlinePlayers()){
-            Protocol protocol = new Protocol();
+
             Team team = player.getScoreboard().getPlayerTeam(player);
             if(team != null){
                 Location[] location = new Location[team.getEntries().size()];
@@ -48,18 +54,18 @@ public class EveryTicks extends BukkitRunnable {
                         location[i] = Utilities.pin.get(teammate);
                         locationR[i] = Utilities.pinRed.get(teammate);
 
-                        if(teammate != player){
-                            /*
-                            protocol.setGlowing(teammate, player);
+                        if(teammate != null && teammate != player){
 
-                             */
+                            Protocol.setGlowing(teammate, player);
+
+
                         }
 
                         i++;
                     }
                 }
-                protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
-                protocol.pushPin(player,locationR,EntityType.FIREBALL,team.getEntries().size());
+                Protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
+                Protocol.pushPin(player,locationR,EntityType.FIREBALL,team.getEntries().size());
             }else {
                 Location[] location = new Location[1];
                 Location[] locationR = new Location[1];
@@ -67,8 +73,8 @@ public class EveryTicks extends BukkitRunnable {
                 location[0] = Utilities.pin.get(player);
                 locationR[0] = Utilities.pin.get(player);
 
-                protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
-                protocol.pushPin(player,locationR,EntityType.FIREBALL,10);
+                Protocol.pushPin(player,location, EntityType.DRAGON_FIREBALL,0);
+                Protocol.pushPin(player,locationR,EntityType.FIREBALL,10);
             }
 
             //スニーク+ピンアイテムイベントハンドラー(現在メッセージUI表示に使用)

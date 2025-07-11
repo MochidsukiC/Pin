@@ -29,7 +29,7 @@ public class Protocol {
      * @param entityType ピンのタイプ
      * @param entityIdPlus エンティティIDオフセット
      */
-    public void pushPin(Player player, Location[] locations, EntityType entityType, int entityIdPlus) {
+    public static void pushPin(Player player, Location[] locations, EntityType entityType, int entityIdPlus) {
         int entityId = 10000 + entityIdPlus;
 
 
@@ -111,7 +111,7 @@ public class Protocol {
      * @param glowingPlayer 発光させるプレイヤー
      * @param sendPacket 送信先
      */
-    public void setGlowing(Player glowingPlayer, Player sendPacket) {
+    public static void setGlowing(Player glowingPlayer, Player sendPacket) {
 
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.ENTITY_METADATA);
         packet.getIntegers().write(0, glowingPlayer.getEntityId());
@@ -132,6 +132,7 @@ public class Protocol {
         } catch (Exception e) {
             System.out.println("There was an issue with one of the glowing enchants!");
         }
+
 
     }
 

@@ -1,13 +1,16 @@
 package jp.houlab.mochidsuki.pin;
 
+import io.papermc.paper.event.player.PlayerTrackEntityEvent;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.inventory.ItemStack;
@@ -16,16 +19,20 @@ import java.util.*;
 
 import static jp.houlab.mochidsuki.pin.Pin.config;
 import static jp.houlab.mochidsuki.pin.Pin.plugin;
+import org.bukkit.event.server.ServerCommandEvent;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.lang.annotation.Repeatable;
+
+import static jp.houlab.mochidsuki.pin.Pin.plugin;
 
 /**
  * リスナークラス
- *
  * @author Mochidsuki
  */
 public class Listener implements org.bukkit.event.Listener {
     /**
      * ピンを指す
-     *
      * @param event イベント
      */
     @EventHandler
@@ -142,5 +149,50 @@ public class Listener implements org.bukkit.event.Listener {
             }
         }
     }
+
+    @EventHandler
+    public void PlayerTrackEntityEvent(PlayerTrackEntityEvent event){
+        if(event.getEntity() instanceof Player) {
+            Player player = event.getPlayer();
+            Player loadPlayer = (Player) event.getEntity();
+            if(Utilities.getGlowPlayerList(player).contains(loadPlayer.getUniqueId())){
+                Protocol.setGlowing(loadPlayer,player);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        String command = event.getMessage().toLowerCase(); // コマンドを小文字に変換
+
+        // /team コマンドで始まっているか確認
+            if (command.startsWith("/team ")) {
+            new BukkitRunnable() {
+
+                @Override
+                public void run() {
+                    for(Player player : event.getPlayer().getServer().getOnlinePlayers()){
+                        Utilities.updatePlayerMetaData(player);
+                    }
+                }
+            }.runTaskLater(plugin, 1);
+
+        }
+    }
+    @EventHandler
+    public void onServerCommand(ServerCommandEvent event) {
+        CommandSender sender = event.getSender();
+        String command = event.getCommand().toLowerCase(); // コマンドを小文字に変換
+
+        // team コマンドで始まっているか確認 (こちらには / が付かない)
+        if (command.startsWith("team ")) {
+            for(Player player : plugin.getServer().getOnlinePlayers()){
+                Utilities.updatePlayerMetaData(player);
+            }
+            // こちらもキャンセル可能
+            // event.setCancelled(true);
+        }
+    }
+
 }
 
