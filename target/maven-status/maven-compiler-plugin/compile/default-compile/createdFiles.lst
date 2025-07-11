@@ -1,2 +1,6 @@
 jp/houlab/mochidsuki/pin/GlowPacketListener.class
+jp/houlab/mochidsuki/pin/Protocol.class
+jp/houlab/mochidsuki/pin/Pin.class
+jp/houlab/mochidsuki/pin/EveryTicks.class
 jp/houlab/mochidsuki/pin/Utilities.class
+jp/houlab/mochidsuki/pin/Listener.class
