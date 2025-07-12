@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.title.Title;
 import net.kyori.adventure.title.TitlePart;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -78,7 +79,7 @@ public class EveryTicks extends BukkitRunnable {
             }
 
             //スニーク+ピンアイテムイベントハンドラー(現在メッセージUI表示に使用)
-            if(player.isSneaking() && player.getInventory().getItemInMainHand().getType().equals(Material.matchMaterial(config.getString("PinMaterial")))){
+            if(player.isSneaking() && player.getInventory().getItemInMainHand().getType().equals(Material.matchMaterial(config.getString("PinMaterial"))) && (player.getGameMode().equals(GameMode.ADVENTURE) || player.getGameMode().equals(GameMode.SURVIVAL) || !player.getLocation().clone().add(0,-1,0).getBlock().getType().equals(Material.AIR))){
                 int index = playerSelectMessageIndex.getOrDefault(player.getUniqueId(),0);
                 int behindIndex = index-1;
                 int afterIndex = index+1;
